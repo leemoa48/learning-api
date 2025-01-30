@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicants List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function fetchApplicants() {
+            const response = await fetch('https://awake-yolande-leeszone-a355b4a6.koyeb.app/applicants');
+            const data = await response.json();
+            const applicantsContainer = document.getElementById('applicants');
+            applicantsContainer.innerHTML = '';
+            data.applicants.forEach(applicant => {
+                const applicantCard = `
+                    <div class="p-4 border rounded-lg shadow-sm bg-gray-50">
+                        <h2 class="text-xl font-semibold">${applicant.firstname} ${applicant.lastname}</h2>
+                        <p class="text-gray-600">Role: <span class="font-medium">${applicant.role}</span></p>
+                        <a href="${applicant.resume_url}" target="_blank" class="text-blue-500 hover:underline">View Resume</a>
+                        <p class="text-sm text-gray-500">Interview Code: ${applicant.interview_code}</p>
+                    </div>
+                `;
+                applicantsContainer.innerHTML += applicantCard;
+            });
+        }
+        window.onload = fetchApplicants;
+    </script>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Applicants</h1>
+        <div id="applicants" class="space-y-4">
+            <p class="text-center text-gray-500">Loading...</p>
+        </div>
+        <div class="text-center mt-6">
+            <a href="allapplicant.html" class="text-blue-500 hover:underline text-lg">View All Applicants</a>
+        </div>
+    </div>
+</body>
+</html>
